@@ -483,6 +483,7 @@
     let audio,master,oscillators=[],isPlaying=false,timer;
     function startAudio(){audio=new(window.AudioContext||window.webkitAudioContext)();master=audio.createGain();master.gain.value=0;master.connect(audio.destination);const filter=audio.createBiquadFilter();filter.type='lowpass';filter.frequency.value=750;filter.connect(master);for(let i=0;i<3;i++){let o=audio.createOscillator(),v=audio.createGain();o.type='sine';v.gain.value=[.15,.10,.07][i];o.connect(v).connect(filter);o.start();oscillators.push(o)}const chords=[[261.6,329.6,392],[220,261.6,329.6],[174.6,261.6,349.2],[196,246.9,293.7]];let n=0;function chord(){chords[n++%4].forEach((hz,i)=>oscillators[i].frequency.setTargetAtTime(hz,audio.currentTime,1.5))}chord();timer=setInterval(chord,6500)}
     sound.onclick=()=>{if(!audio)startAudio();isPlaying=!isPlaying;audio.resume();master.gain.setTargetAtTime(isPlaying?.38:0,audio.currentTime,.45);sound.classList.toggle('muted',!isPlaying);sound.setAttribute('aria-pressed',String(isPlaying));sound.setAttribute('aria-label',isPlaying?'Silenciar música':'Activar música')};document.addEventListener('visibilitychange',()=>{if(audio)document.hidden?audio.suspend():isPlaying&&audio.resume()});
-  </script>
+  </script>  <a href="https://invitaciones.arxmedia.es/" aria-label="Volver a la página principal" style="position:fixed;top:max(14px,env(safe-area-inset-top));left:max(14px,calc((100vw - 620px)/2 + 14px));z-index:120;display:inline-flex;align-items:center;padding:9px 12px;border:1px solid #a4865a66;border-radius:999px;background:#fbf6ede8;color:#6f5738;font:500 10px/1 Arial,sans-serif;letter-spacing:.16em;text-decoration:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">BACK</a>
+
 </body>
 </html>
